@@ -20,6 +20,7 @@ def get_download_link(file_path, file_label):
     b64 = base64.b64encode(data).decode()
     href = f'<a href="data:file/octet-stream;base64,{b64}" download="{file_path}">{file_label}</a>'
     return href
+df = pd.read_csv('diabetes.csv')
 st.sidebar.download_button(
     label="Download Dataset",
     data=df.to_csv(index=False).encode("utf-8"),
