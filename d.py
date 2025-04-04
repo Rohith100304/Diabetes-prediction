@@ -29,12 +29,12 @@ if st.sidebar.download_button(
 ):
 
 # **Download Model Button**
-st.sidebar.download_button(
+if st.sidebar.download_button(
     label="Download Model",
     data=open("diabetes p.pkl", "rb"),
     file_name="diabetes p.pkl",
     mime="application/octet-stream"
-)
+):
 
 def main():
     st.set_page_config(page_title="Diabetes Prediction App", layout="wide")
