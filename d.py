@@ -26,7 +26,7 @@ if st.sidebar.download_button(
     data=df.to_csv(index=False).encode("utf-8"),
     file_name="diabetes.csv",
     mime="text/csv"
-)
+):
 
 # **Download Model Button**
 st.sidebar.download_button(
