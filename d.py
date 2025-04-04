@@ -37,8 +37,12 @@ def main():
                 st.error(f"Couldn't load dataset: {e}")
         
         if st.button("Download Dataset"):
-            csv_link = get_download_link("diabetes.csv", "diabetes.csv")
+            #csv_link = get_download_link("diabetes.csv", "diabetes.csv")
             #st.markdown(f'"{csv_link}" download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True)
+            label="Download Dataset",
+            data=df.to_csv(index=False).encode("utf-8"),
+            file_name="diabetes.csv",
+            mime="text/csv"
         
         if st.button("Download Model"):
             pkl_link = get_download_link("diabetes p.pkl", "diabetes p.pkl")
