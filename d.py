@@ -42,7 +42,7 @@ def main():
         
         if st.button("Download Model"):
             pkl_link = get_download_link("diabetes p.pkl", "diabetes p.pkl")
-            st.markdown(f'<a href="{pkl_link}" download="diabetes p.pkl">Click to download model</a>', unsafe_allow_html=True)
+            st.markdown(f'{pkl_link}', unsafe_allow_html=True)
     
     st.title("Diabetes Prediction App")
     st.write("This app predicts the likelihood of diabetes based on health metrics.")
