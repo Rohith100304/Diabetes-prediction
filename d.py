@@ -237,9 +237,20 @@ if __name__ == "__main__":
 '''
 import streamlit as st
 import pandas as pd
+import numpy as np
+import pickle
 import base64
+from pycaret.classification import load_model, predict_model
 
-# Function to create download links
+@st.cache_resource
+def load_pycaret_model():
+    try:
+        model = load_model('diabetes p')
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
+
 def get_download_link(file_path, file_label):
     with open(file_path, 'rb') as f:
         data = f.read()
@@ -247,51 +258,35 @@ def get_download_link(file_path, file_label):
     href = f'<a href="data:file/octet-stream;base64,{b64}" download="{file_path}">{file_label}</a>'
     return href
 
-# Main app
 def main():
     st.set_page_config(page_title="Diabetes Prediction App", layout="wide")
     
-    # ===== SIDEBAR =====
-    st.sidebar.title("Options")
+    with st.sidebar:
+        st.title("Options")
+        if st.button("📊 View Dataset"):
+            try:
+                dataset = pd.read_csv("diabetes.csv")
+                st.subheader("Dataset Preview")
+                st.dataframe(dataset.head())
+                st.write(f"Rows: {dataset.shape[0]}, Columns: {dataset.shape[1]}")
+            except Exception as e:
+                st.error(f"Couldn't load dataset: {e}")
+        
+        st.markdown("### Download Files")
+        st.markdown(get_download_link("diabetes.csv", "📥 Download Dataset"), unsafe_allow_html=True)
+        st.markdown(get_download_link("diabetes p.pkl", "📥 Download Model"), unsafe_allow_html=True)
+        st.markdown("---")
+        st.info("💡 Enter patient data and click Predict to get results")
     
-    # View Dataset button
-    if st.sidebar.button("📊 View Dataset"):
-        try:
-            dataset = pd.read_csv("diabetes.csv")
-            st.sidebar.subheader("Dataset Preview")
-            st.sidebar.dataframe(dataset.head())
-            st.sidebar.write(f"Rows: {dataset.shape[0]}, Columns: {dataset.shape[1]}")
-        except Exception as e:
-            st.sidebar.error(f"Couldn't load dataset: {e}")
-    
-    # Download buttons
-    st.sidebar.markdown("### Download Files")
-    st.sidebar.markdown(get_download_link("diabetes.csv", "📥 Download Dataset"), unsafe_allow_html=True)
-    st.sidebar.markdown(get_download_link("diabetes p.pkl", "📥 Download Model"), unsafe_allow_html=True)
-    
-    st.sidebar.markdown("---")
-    st.sidebar.info("💡 Enter patient data and click Predict to get results")
-    
-    # ===== MAIN CONTENT =====
     st.title("Diabetes Prediction App")
+    st.write("This app predicts the likelihood of diabetes based on health metrics.")
     
-    # Your existing prediction form and logic here
-    # (Keep all your existing prediction code from the previous version)
-    st.title("Diabetes Prediction App")
-    st.write("""
-    This app predicts the likelihood of diabetes based on health metrics.
-    Please enter your information below and click 'Predict' to see the results.
-    """)
-    
-    # Load the model
     model = load_pycaret_model()
     if model is None:
         st.stop()
     
-    # Create input form
     with st.form("diabetes_form"):
         st.header("Patient Information")
-        
         col1, col2 = st.columns(2)
         
         with col1:
@@ -308,9 +303,7 @@ def main():
         
         submitted = st.form_submit_button("Predict Diabetes Risk")
     
-    # When the form is submitted
     if submitted:
-        # Create a dataframe from the input data
         input_data = pd.DataFrame({
             'Pregnancies': [pregnancies],
             'Glucose': [glucose],
@@ -322,37 +315,26 @@ def main():
             'Age': [age]
         })
         
-        # Display the input data
         st.subheader("Input Data")
         st.dataframe(input_data)
         
-        # Make prediction
         try:
             prediction = predict_model(model, data=input_data)
-            
-            # Display prediction
-            st.subheader("Prediction Result")
-            
-            # Get the predicted probability and class
             pred_prob = prediction['prediction_score'][0]
             pred_class = prediction['prediction_label'][0]
             
-            # Display results with color coding
+            st.subheader("Prediction Result")
             if pred_class == 1:
                 st.error(f"High Risk of Diabetes (Probability: {pred_prob:.2%})")
-                st.write("The model predicts a high likelihood of diabetes based on the provided information.")
             else:
                 st.success(f"Low Risk of Diabetes (Probability: {pred_prob:.2%})")
-                st.write("The model predicts a low likelihood of diabetes based on the provided information.")
             
-            # Show detailed prediction probabilities
             st.write("Detailed Prediction Probabilities:")
             st.write(f"- Probability of No Diabetes: {(1 - pred_prob):.2%}")
             st.write(f"- Probability of Diabetes: {pred_prob:.2%}")
             
         except Exception as e:
             st.error(f"An error occurred during prediction: {e}")
-    st.write("Main prediction form would go here...")
 
 if __name__ == "__main__":
     main()
