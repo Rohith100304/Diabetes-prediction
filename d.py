@@ -38,7 +38,7 @@ def main():
         
         if st.button("Download Dataset"):
             csv_link = get_download_link("diabetes.csv", "diabetes.csv")
-            st.markdown(f'<a href="{csv_link}" download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True
+            st.markdown(f'{csv_link} download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True)
         
         if st.button("Download Model"):
             pkl_link = get_download_link("diabetes p.pkl", "diabetes p.pkl")
