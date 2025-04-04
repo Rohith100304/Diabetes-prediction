@@ -20,6 +20,20 @@ def get_download_link(file_path, file_label):
     b64 = base64.b64encode(data).decode()
     href = f'<a href="data:file/octet-stream;base64,{b64}" download="{file_path}">{file_label}</a>'
     return href
+st.sidebar.download_button(
+    label="Download Dataset",
+    data=df.to_csv(index=False).encode("utf-8"),
+    file_name="diabetes.csv",
+    mime="text/csv"
+)
+
+# **Download Model Button**
+st.sidebar.download_button(
+    label="Download Model",
+    data=open("diabetes p.pkl", "rb"),
+    file_name="diabetes p.pkl",
+    mime="application/octet-stream"
+)
 
 def main():
     st.set_page_config(page_title="Diabetes Prediction App", layout="wide")
