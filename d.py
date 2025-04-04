@@ -15,7 +15,7 @@ if st.sidebar.download_button(
 ):
 
 # **Download Model Button**
-if st.sidebar.download_button(
+st.sidebar.download_button(
     label="Download Model",
     data=open("diabetes p.pkl", "rb"),
     file_name="diabetes p.pkl",
