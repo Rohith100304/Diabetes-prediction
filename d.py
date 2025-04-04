@@ -29,8 +29,8 @@ def main():
         if st.button("View Dataset"):
             try:
                 dataset = pd.read_csv("diabetes.csv")
-                st.subheader("Dataset Preview")
-                st.dataframe(dataset.head())
+                st.write("Dataset Preview")
+                st.dataframe(dataset)
                 st.write(f"Rows: {dataset.shape[0]}, Columns: {dataset.shape[1]}")
             except Exception as e:
                 st.error(f"Couldn't load dataset: {e}")
