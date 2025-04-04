@@ -25,8 +25,8 @@ def main():
     st.set_page_config(page_title="Diabetes Prediction App", layout="wide")
     if 'show_dataset' not in st.session_state:
         st.session_state.show_dataset = False
-        with st.sidebar:
-            st.title("Options")
+    with st.sidebar:
+        st.title("Options")
         
         # View Dataset button - triggers showing dataset in main area
         if st.button("View Dataset"):
