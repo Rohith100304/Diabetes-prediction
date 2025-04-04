@@ -35,14 +35,10 @@ def main():
                 st.write(f"Rows: {dataset.shape[0]}, Columns: {dataset.shape[1]}")
             except Exception as e:
                 st.error(f"Couldn't load dataset: {e}")
-        df = pd.read_csv('diabetes.csv')
+        
         if st.button("Download Dataset"):
-            #csv_link = get_download_link("diabetes.csv", "diabetes.csv")
-            #st.markdown(f'"{csv_link}" download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True)
-            label="Download Dataset",
-            data=df.to_csv(index=False).encode("utf-8"),
-            file_name="diabetes.csv",
-            mime="text/csv"
+            csv_link = get_download_link("diabetes.csv", "diabetes.csv")
+            st.markdown(f'"{csv_link}" download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True
         
         if st.button("Download Model"):
             pkl_link = get_download_link("diabetes p.pkl", "diabetes p.pkl")
