@@ -5,21 +5,7 @@ import pickle
 import base64
 from pycaret.classification import load_model, predict_model
 
-@st.cache_resource
-def load_pycaret_model():
-    try:
-        model = load_model('diabetes p')
-        return model
-    except Exception as e:
-        st.error(f"Error loading model: {e}")
-        return None
-
-def get_download_link(file_path, file_label):
-    with open(file_path, 'rb') as f:
-        data = f.read()
-    b64 = base64.b64encode(data).decode()
-    href = f'<a href="data:file/octet-stream;base64,{b64}" download="{file_path}">{file_label}</a>'
-    return href
+model = load_model(diabetes p)
 df = pd.read_csv('diabetes.csv')
 if st.sidebar.download_button(
     label="Download Dataset",
@@ -35,6 +21,22 @@ if st.sidebar.download_button(
     file_name="diabetes p.pkl",
     mime="application/octet-stream"
 ):
+@st.cache_resource
+def load_pycaret_model():
+    try:
+        model = load_model('diabetes p')
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
+
+def get_download_link(file_path, file_label):
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    b64 = base64.b64encode(data).decode()
+    href = f'<a href="data:file/octet-stream;base64,{b64}" download="{file_path}">{file_label}</a>'
+    return href
+
 
 def main():
     st.set_page_config(page_title="Diabetes Prediction App", layout="wide")
