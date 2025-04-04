@@ -27,12 +27,12 @@ def main():
         st.session_state.show_dataset = False
     
     with st.sidebar:
-        st.title("Options")
+            st.title("Options")
         
         # View Dataset button - triggers showing dataset in main area
-        if st.button("View Dataset"):
-            st.session_state.show_dataset = True
-            st.rerun()
+            if st.button("View Dataset"):
+                st.session_state.show_dataset = True
+                st.rerun()
    ''' with st.sidebar:
         st.title("Options")
         if st.button("View Dataset"):
