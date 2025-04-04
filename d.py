@@ -5,22 +5,6 @@ import pickle
 import base64
 from pycaret.classification import load_model, predict_model
 
-model = load_model('diabetes p')
-df = pd.read_csv('diabetes.csv')
-if st.sidebar.download_button(
-    label="Download Dataset",
-    data=df.to_csv(index=False).encode("utf-8"),
-    file_name="diabetes.csv",
-    mime="text/csv"
-):
-
-# **Download Model Button**
-st.sidebar.download_button(
-    label="Download Model",
-    data=open("diabetes p.pkl", "rb"),
-    file_name="diabetes p.pkl",
-    mime="application/octet-stream"
-):
 @st.cache_resource
 def load_pycaret_model():
     try:
@@ -54,7 +38,7 @@ def main():
         
         if st.button("Download Dataset"):
             csv_link = get_download_link("diabetes.csv", "diabetes.csv")
-            st.markdown(f'<a href="{csv_link}" download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True)
+            #st.markdown(f'"{csv_link}" download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True)
         
         if st.button("Download Model"):
             pkl_link = get_download_link("diabetes p.pkl", "diabetes p.pkl")
