@@ -23,8 +23,17 @@ def get_download_link(file_path, file_label):
 
 def main():
     st.set_page_config(page_title="Diabetes Prediction App", layout="wide")
+    if 'show_dataset' not in st.session_state:
+        st.session_state.show_dataset = False
     
     with st.sidebar:
+        st.title("Options")
+        
+        # View Dataset button - triggers showing dataset in main area
+        if st.button("View Dataset"):
+            st.session_state.show_dataset = True
+            st.rerun()
+   ''' with st.sidebar:
         st.title("Options")
         if st.button("View Dataset"):
             try:
@@ -33,7 +42,7 @@ def main():
                 st.dataframe(dataset.head())
                 st.write(f"Rows: {dataset.shape[0]}, Columns: {dataset.shape[1]}")
             except Exception as e:
-                st.error(f"Couldn't load dataset: {e}")
+                st.error(f"Couldn't load dataset: {e}")'''
         
         if st.button("Download Dataset"):
             csv_link = get_download_link("diabetes.csv", "diabetes.csv")
