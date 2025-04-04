@@ -32,7 +32,7 @@ def main():
         if st.button("View Dataset"):
                 st.session_state.show_dataset = True
                 st.rerun()
-   ''' with st.sidebar:
+''' with st.sidebar:
         st.title("Options")
         if st.button("View Dataset"):
             try:
