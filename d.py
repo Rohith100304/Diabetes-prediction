@@ -95,7 +95,7 @@ def main():
 # Run the app
 if __name__ == "__main__":
     main()
-    '''
+    
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -232,5 +232,52 @@ def main():
             st.error(f"An error occurred during prediction: {e}")
 
 # Run the app
+if __name__ == "__main__":
+    main()
+'''
+import streamlit as st
+import pandas as pd
+import base64
+
+# Function to create download links
+def get_download_link(file_path, file_label):
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    b64 = base64.b64encode(data).decode()
+    href = f'<a href="data:file/octet-stream;base64,{b64}" download="{file_path}">{file_label}</a>'
+    return href
+
+# Main app
+def main():
+    st.set_page_config(page_title="Diabetes Prediction App", layout="wide")
+    
+    # ===== SIDEBAR =====
+    st.sidebar.title("Options")
+    
+    # View Dataset button
+    if st.sidebar.button("📊 View Dataset"):
+        try:
+            dataset = pd.read_csv("diabetes.csv")
+            st.sidebar.subheader("Dataset Preview")
+            st.sidebar.dataframe(dataset.head())
+            st.sidebar.write(f"Rows: {dataset.shape[0]}, Columns: {dataset.shape[1]}")
+        except Exception as e:
+            st.sidebar.error(f"Couldn't load dataset: {e}")
+    
+    # Download buttons
+    st.sidebar.markdown("### Download Files")
+    st.sidebar.markdown(get_download_link("diabetes.csv", "📥 Download Dataset"), unsafe_allow_html=True)
+    st.sidebar.markdown(get_download_link("diabetes p.pkl", "📥 Download Model"), unsafe_allow_html=True)
+    
+    st.sidebar.markdown("---")
+    st.sidebar.info("💡 Enter patient data and click Predict to get results")
+    
+    # ===== MAIN CONTENT =====
+    st.title("Diabetes Prediction App")
+    
+    # Your existing prediction form and logic here
+    # (Keep all your existing prediction code from the previous version)
+    st.write("Main prediction form would go here...")
+
 if __name__ == "__main__":
     main()
