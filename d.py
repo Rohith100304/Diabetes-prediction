@@ -5,7 +5,7 @@ import pickle
 import base64
 from pycaret.classification import load_model, predict_model
 
-model = load_model(diabetes p)
+model = load_model('diabetes p')
 df = pd.read_csv('diabetes.csv')
 if st.sidebar.download_button(
     label="Download Dataset",
