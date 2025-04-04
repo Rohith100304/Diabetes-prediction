@@ -35,8 +35,13 @@ def main():
             except Exception as e:
                 st.error(f"Couldn't load dataset: {e}")
         
-        st.button(get_download_link("diabetes.csv", "Download Dataset"), unsafe_allow_html=True)
-        st.button(get_download_link("diabetes p.pkl", "Download Model"), unsafe_allow_html=True)
+        if st.button("Download Dataset"):
+            csv_link = get_download_link("diabetes.csv", "diabetes.csv")
+            st.markdown(f'<a href="{csv_link}" download="diabetes.csv">Click to download dataset</a>', unsafe_allow_html=True)
+        
+        if st.button("Download Model"):
+            pkl_link = get_download_link("diabetes p.pkl", "diabetes p.pkl")
+            st.markdown(f'<a href="{pkl_link}" download="diabetes p.pkl">Click to download model</a>', unsafe_allow_html=True)
     
     st.title("Diabetes Prediction App")
     st.write("This app predicts the likelihood of diabetes based on health metrics.")
